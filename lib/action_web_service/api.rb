@@ -154,7 +154,7 @@ module ActionWebService # :nodoc:
         #      :getCompletedCount=>#<ActionWebService::API::Method:0x2437794 ...>}
         #   ProjectsApi.api_methods[:getCount].public_name #=> "GetCount"
         def api_methods
-          class_attribute(:api_methods) || {}
+          self.send(:api_methods) || {}
           # read_inheritable_attribute("api_methods") || {}
         end
 
@@ -187,7 +187,7 @@ module ActionWebService # :nodoc:
         # The Method instance for the default API method, if any
         def default_api_method_instance
           return nil unless name = default_api_method
-          instance = class_attribute :default_api_method_instance
+          instance = self.send(:default_api_method_instance)
           # read_inheritable_attribute("default_api_method_instance")
           if instance && instance.name == name
             return instance
@@ -201,7 +201,7 @@ module ActionWebService # :nodoc:
 
         private
           def api_public_method_names
-            class_attribute(:api_public_method_names) || {}
+            self.send(:api_public_method_names) || {}
             # read_inheritable_attribute("api_public_method_names") || {}
           end
   

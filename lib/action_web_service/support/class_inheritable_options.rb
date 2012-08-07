@@ -9,7 +9,7 @@ class Class # :nodoc:
         if !value.nil?
           self.send("#{sym}=",value)
         else
-          class_attribute(:#{sym})
+          self.send(:#{sym})
         end
       end
       

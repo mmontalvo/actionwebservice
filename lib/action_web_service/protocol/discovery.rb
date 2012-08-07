@@ -15,7 +15,8 @@ module ActionWebService # :nodoc:
       module InstanceMethods # :nodoc:
         private
           def discover_web_service_request(action_pack_request)
-            (self.class.read_inheritable_attribute("web_service_protocols") || []).each do |protocol|
+            #(self.class.read_inheritable_attribute("web_service_protocols") || []).each do |protocol|
+            (self.class.send("web_service_protocols") || []).each do |protocol|
               protocol = protocol.create(self)
               request = protocol.decode_action_pack_request(action_pack_request)
               return request unless request.nil?
