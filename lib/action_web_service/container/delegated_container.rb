@@ -56,7 +56,8 @@ module ActionWebService # :nodoc:
         end
   
         def web_services # :nodoc:
-          read_inheritable_attribute("web_services") || {}
+          class_attribute(:web_services) || {}
+          # read_inheritable_attribute("web_services") || {}
         end
   
         def add_web_service_definition_callback(&block) # :nodoc:
@@ -65,6 +66,7 @@ module ActionWebService # :nodoc:
   
         private
           def call_web_service_definition_callbacks(container_class, web_service_name, service_info)
+            #(class_attribute(:web_service_definition_callbacks) || []).each do |block|
             (read_inheritable_attribute("web_service_definition_callbacks") || []).each do |block|
               block.call(container_class, web_service_name, service_info)
             end

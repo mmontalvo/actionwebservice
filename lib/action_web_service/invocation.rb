@@ -103,7 +103,10 @@ module ActionWebService # :nodoc:
 
         def prepend_interceptors_to_chain(condition, interceptors)
           interceptors = interceptors + read_inheritable_attribute("#{condition}_invocation_interceptors")
-          write_inheritable_attribute("#{condition}_invocation_interceptors", interceptors)
+          
+          self.send("#{condition}_invocation_interceptors=",interceptors)
+          class_attribute ("#{condition}_invocation_interceptors").to_sym
+          # write_inheritable_attribute("#{condition}_invocation_interceptors", interceptors)
         end
 
         def extract_conditions!(interceptors)

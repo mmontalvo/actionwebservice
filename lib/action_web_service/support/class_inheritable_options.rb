@@ -1,17 +1,20 @@
 class Class # :nodoc:
   def class_inheritable_option(sym, default_value=nil)
-    write_inheritable_attribute sym, default_value
+
+    self.send("#{sym}=",default_value)
+    # write_inheritable_attribute sym, default_value
+
     class_eval <<-EOS
       def self.#{sym}(value=nil)
         if !value.nil?
-          write_inheritable_attribute(:#{sym}, value)
+          self.send("#{sym}=",value)
         else
-          read_inheritable_attribute(:#{sym})
+          class_attribute(:#{sym})
         end
       end
       
       def self.#{sym}=(value)
-        write_inheritable_attribute(:#{sym}, value)
+        self.send("#{sym}=",value)
       end
 
       def #{sym}

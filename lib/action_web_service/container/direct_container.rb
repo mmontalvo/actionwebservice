@@ -48,7 +48,9 @@ module ActionWebService # :nodoc:
             unless definition.respond_to?(:ancestors) && definition.ancestors.include?(ActionWebService::API::Base)
               raise(ContainerError, "#{definition.to_s} is not a valid API definition")
             end
-            write_inheritable_attribute("web_service_api", definition)
+            self.web_service_api = definition
+            class_attribute :web_service_api
+            # write_inheritable_attribute("web_service_api", definition)
             call_web_service_api_callbacks(self, definition)
           end
         end
