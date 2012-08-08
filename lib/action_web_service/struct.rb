@@ -53,7 +53,8 @@ module ActionWebService
       end
   
       def members # :nodoc:
-        read_inheritable_attribute("struct_members") || {}
+        self.send("struct_members") || {}
+        # read_inheritable_attribute("struct_members") || {}
       end
 
       def member_type(name) # :nodoc:

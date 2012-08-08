@@ -154,7 +154,8 @@ module ActionWebService # :nodoc:
         #      :getCompletedCount=>#<ActionWebService::API::Method:0x2437794 ...>}
         #   ProjectsApi.api_methods[:getCount].public_name #=> "GetCount"
         def api_methods
-          read_inheritable_attribute("api_methods") || {}
+          self.send(:api_methods) || {}
+          # read_inheritable_attribute("api_methods") || {}
         end
 
         # The Method instance for the given public API method name, if any
@@ -186,18 +187,22 @@ module ActionWebService # :nodoc:
         # The Method instance for the default API method, if any
         def default_api_method_instance
           return nil unless name = default_api_method
-          instance = read_inheritable_attribute("default_api_method_instance")
+          instance = self.send(:default_api_method_instance)
+          # read_inheritable_attribute("default_api_method_instance")
           if instance && instance.name == name
             return instance
           end
           instance = Method.new(name, public_api_method_name(name), nil, nil)
-          write_inheritable_attribute("default_api_method_instance", instance)
+          self.default_api_method_instance = instance
+          class_attribute :default_api_method_instance
+          # write_inheritable_attribute("default_api_method_instance", instance)
           instance
         end
 
         private
           def api_public_method_names
-            read_inheritable_attribute("api_public_method_names") || {}
+            self.send(:api_public_method_names) || {}
+            # read_inheritable_attribute("api_public_method_names") || {}
           end
   
           def validate_options(valid_option_keys, supplied_option_keys)
