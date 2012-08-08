@@ -1,9 +1,13 @@
 class Class # :nodoc:
   def class_inheritable_option(sym, default_value=nil)
 
-    self.define_attributes({ sym => default_value })
-    self.send("#{sym}=",default_value)
-    # write_inheritable_attribute sym, default_value
+    unless sym
+      @sym = sym
+      class << self; attr_accessor @sym end
+      # self.define_attributes({ sym => default_value })
+      self.send("#{sym}=",default_value)
+      # write_inheritable_attribute sym, default_value
+    end
 
     class_eval <<-EOS
       def self.#{sym}(value=nil)
