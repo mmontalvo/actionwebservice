@@ -1,7 +1,7 @@
 class Class # :nodoc:
   def class_inheritable_option(sym, default_value=nil)
 
-    self.class.module_eval { attr_accesor sym}
+    self.define_attributes({ sym => default_value })
     self.send("#{sym}=",default_value)
     # write_inheritable_attribute sym, default_value
 
