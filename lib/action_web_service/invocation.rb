@@ -81,19 +81,23 @@ module ActionWebService # :nodoc:
       alias :after_invocation :append_after_invocation
 
       def before_invocation_interceptors # :nodoc:
-        read_inheritable_attribute("before_invocation_interceptors")
+        self.send("before_invocation_interceptors")
+        # read_inheritable_attribute("before_invocation_interceptors")
       end
 
       def after_invocation_interceptors # :nodoc:
-        read_inheritable_attribute("after_invocation_interceptors")
+        self.send("after_invocation_interceptors")
+        # read_inheritable_attribute("after_invocation_interceptors")
       end
 
       def included_intercepted_methods # :nodoc:
-        read_inheritable_attribute("included_intercepted_methods") || {}
+        self.send("included_intercepted_methods") || {}
+        # read_inheritable_attribute("included_intercepted_methods") || {}
       end
       
       def excluded_intercepted_methods # :nodoc:
-        read_inheritable_attribute("excluded_intercepted_methods") || {}
+        self.send("excluded_intercepted_methods") || {}
+        # read_inheritable_attribute("excluded_intercepted_methods") || {}
       end
 
       private
@@ -102,7 +106,8 @@ module ActionWebService # :nodoc:
         end
 
         def prepend_interceptors_to_chain(condition, interceptors)
-          interceptors = interceptors + read_inheritable_attribute("#{condition}_invocation_interceptors")
+          interceptors = interceptors + self.send("#{condition}_invocation_interceptors")
+          # interceptors = interceptors + read_inheritable_attribute("#{condition}_invocation_interceptors")
           
           self.send("#{condition}_invocation_interceptors=",interceptors)
           class_attribute ("#{condition}_invocation_interceptors").to_sym
